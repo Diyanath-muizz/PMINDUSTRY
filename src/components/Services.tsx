@@ -1,63 +1,94 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { Layers, Boxes, Truck, Weight, Zap } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-// Dynamically import with no SSR to avoid hydration issues
-const Player = dynamic(
-  () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
-  { ssr: false, loading: () => <div className="w-[100px] h-[100px] mb-5" /> }
-);
-
-const services = [
+const services: { name: string; Icon: LucideIcon; description: string; color: string }[] = [
   {
     name: "Iron Scrap Trading",
-    src: "https://lottie.host/81a967f6-cd29-450f-a78c-02cfc627f12c/dGMBq6Ocd8.json",
+    Icon: Zap,
+    description: "High-volume iron scrap buying & selling.",
+    color: "#e07b39",
   },
   {
     name: "Ferrous Metal Supply",
-    src: "https://lottie.host/5753bde8-d8db-4aa6-bcdd-263a242bd5af/45lY1d7N2Q.json",
+    Icon: Layers,
+    description: "Reliable supply of ferrous grade metals.",
+    color: "#3498db",
   },
   {
-    name: "Non-Ferrous Scrap Trading",
-    src: "https://lottie.host/8cd85d47-6df7-43ca-adbd-fbd90f9bb168/v2mR8RHTA8.json",
+    name: "Non-Ferrous Scrap",
+    Icon: Boxes,
+    description: "Copper, aluminium, brass & more.",
+    color: "#a855f7",
   },
   {
-    name: "Industrial Scrap Procurement",
-    src: "https://lottie.host/8cb090b8-490b-4835-abfa-3d17d12f518e/XvBwI9j1Bw.json",
+    name: "Industrial Procurement",
+    Icon: Truck,
+    description: "End-to-end industrial scrap procurement.",
+    color: "#22c55e",
   },
   {
     name: "Bulk Scrap Supply",
-    src: "https://lottie.host/0a8a68b4-bdf7-4001-8bca-6e108cf14578/OQf5qE1F9n.json",
+    Icon: Weight,
+    description: "High-capacity bulk orders handled with ease.",
+    color: "#f59e0b",
   },
 ];
-
-function ServiceCard({ name, src }: { name: string; src: string }) {
-  return (
-    <div className="glass-box p-8 flex flex-col items-center justify-center text-center group hover:-translate-y-1 transition-transform duration-300">
-      <Player
-        autoplay
-        loop
-        src={src}
-        style={{ height: "100px", width: "100px", marginBottom: "1.25rem" }}
-        className="group-hover:scale-110 transition-transform duration-300"
-      />
-      <h3 className="font-[family-name:var(--font-oswald)] text-lg uppercase tracking-wide text-white">
-        {name}
-      </h3>
-    </div>
-  );
-}
 
 export default function Services() {
   return (
     <section id="services" className="py-24 relative">
+      <style>{`
+        @keyframes iconPulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.15); opacity: 0.85; }
+        }
+        @keyframes ringExpand {
+          0% { transform: scale(0.8); opacity: 0.6; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        .service-card-item:hover .icon-ring {
+          animation: ringExpand 0.7s ease-out forwards;
+        }
+        .service-card-item:hover .icon-svg {
+          animation: iconPulse 0.6s ease-in-out;
+        }
+      `}</style>
+
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="metallic-text font-[family-name:var(--font-oswald)] font-bold text-4xl uppercase text-center tracking-wide mb-12">
           Our Services
         </h2>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s) => (
-            <ServiceCard key={s.name} name={s.name} src={s.src} />
+          {services.map(({ name, Icon, description, color }) => (
+            <div key={name} className="service-card-item glass-box p-8 flex flex-col items-center text-center group hover:-translate-y-1 transition-transform duration-300 cursor-default">
+              {/* Animated icon ring + icon */}
+              <div className="relative flex items-center justify-center mb-6" style={{ width: 80, height: 80 }}>
+                {/* Background ring that expands on hover */}
+                <span
+                  className="icon-ring absolute inset-0 rounded-full"
+                  style={{ border: `2px solid ${color}`, opacity: 0 }}
+                />
+                {/* Icon background circle */}
+                <span
+                  className="absolute inset-0 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300"
+                  style={{ background: color }}
+                />
+                <Icon
+                  className="icon-svg relative z-10 transition-colors duration-300"
+                  size={36}
+                  style={{ color, filter: `drop-shadow(0 0 8px ${color}80)` }}
+                />
+              </div>
+
+              {/* Text */}
+              <h3 className="font-[family-name:var(--font-oswald)] text-lg uppercase tracking-wide text-white mb-2">
+                {name}
+              </h3>
+              <p className="text-white/40 text-sm leading-relaxed">{description}</p>
+            </div>
           ))}
         </div>
       </div>
