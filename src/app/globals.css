@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-industrial-black: #050505;
+  --color-dark-grey: #111315;
+  --color-steel: #2c3e50;
+  --color-steel-light: #52667a;
+  --color-chrome: #e0e5ec;
+  --color-silver: #aeb6bf;
+  --color-accent: #3498db;
+  --color-accent-glow: rgba(52,152,219,0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #050505;
+  color: #f0f4f8;
+  font-family: var(--font-inter), Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Card 3D perspective */
+.perspective-1500 {
+  perspective: 1500px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.card-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Metallic gradient text */
+.metallic-text {
+  background: linear-gradient(to right, #ffffff, #aeb6bf, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Metallic card face */
+.metallic-bg {
+  background: linear-gradient(135deg, #1f2226 0%, #111315 100%);
+}
+
+/* Decorative diagonal lines texture */
+.texture-lines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,0) 2px,
+    rgba(255,255,255,0.01) 2px,
+    rgba(255,255,255,0.01) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* Glass box */
+.glass-box {
+  background: rgba(17, 19, 21, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(174, 182, 191, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-box:hover {
+  border-color: rgba(52, 152, 219, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(52, 152, 219, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Bounce animation for scroll indicator */
+@keyframes bounce-arrow {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+  40% { transform: translateY(-12px) translateX(-50%); }
+  60% { transform: translateY(-6px) translateX(-50%); }
+}
+
+.animate-bounce-arrow {
+  animation: bounce-arrow 2s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111315; }
+::-webkit-scrollbar-thumb { background: #2c3e50; border-radius: 4px; }
